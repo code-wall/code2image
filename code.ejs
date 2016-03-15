@@ -4,9 +4,13 @@
     <title>CodeMirror TEST</title>
     <meta charset="utf-8"/>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.12.0/codemirror.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.12.0/codemirror.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.12.0/mode/javascript/javascript.min.js"></script>
+    <style>
+        <%- codemirrorCss %>
+    </style>
+    <script type="text/javascript">
+        <%- codemirrorJs %>
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.12.0/addon/mode/loadmode.min.js"></script>
     <script type="text/javascript">
         (function() {
 
@@ -126,11 +130,15 @@
 </head>
 <body>
 <script>
-var value = "function myScript(){\nreturn 100;}\n";
+CodeMirror.modeURL = "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.12.0/mode/%N/%N.min.js";
 var editor = CodeMirror(document.body, {
-    value: "function myScript() {\n\treturn 100;\n}",
-    mode:  "javascript"
+    value: "<%- code %>"
 });
+
+editor.setOption("mode", "<%- mimeType %>");
+CodeMirror.autoLoadMode(editor, "<%- mode %>");
+
+
 //CodeMirror.commands["selectAll"](editor);
 //editor.autoFormatRange(editor.getCursor(true), editor.getCursor(false));
 //CodeMirror.commands["goDocEnd"](editor);
