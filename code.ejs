@@ -132,7 +132,7 @@
 <script>
 CodeMirror.modeURL = "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.12.0/mode/%N/%N.min.js";
 var editor = CodeMirror(document.body, {
-    value: "<%- code %>"
+    value: <%- code %>
 });
 
 editor.setOption("mode", "<%- mimeType %>");
