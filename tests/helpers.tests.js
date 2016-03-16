@@ -54,8 +54,8 @@ describe("Helpers tests", function() {
     });
 
     it("Should correctly identify ints", function() {
-        expect(helpers.isValidInt("3").valid).to.be.true;
-        expect(helpers.isValidInt("3").number).to.equal(3);
+        expect(helpers.isValidInt("50").valid).to.be.true;
+        expect(helpers.isValidInt("50").number).to.equal(50);
         expect(helpers.isValidInt("false").valid).to.be.false;
         expect(helpers.isValidInt({}).valid).to.be.false;
         expect(helpers.isValidInt("-10").valid).to.be.false;

@@ -22,7 +22,5 @@ exports.isValidInt = function(numberStr) {
     if (isNaN(number) || number < MIN_WIDTH || number > MAX_WIDTH) {
        valid = false;
     }
-    console.log("Number: ", number);
-    console.log("Valid: ", valid);
     return {valid: valid, number: number}
 };
