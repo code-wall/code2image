@@ -6,6 +6,7 @@ var bodyParser 	= require('body-parser');
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname);
+app.set('port', (process.env.PORT || 8080));
 
 app.use(bodyParser.urlencoded({'extended':'true'}));
 app.use(bodyParser.json());
@@ -14,5 +15,6 @@ app.use('/', express.static(__dirname + '/docs'));
 
 require('./api/routes.js')(app);
 
-app.listen(8080);
-console.log('WebApp listening on port 8080');
+app.listen(app.get('port'), function() {
+    console.log('Node app is running on port', app.get('port'));
+});
