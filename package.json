@@ -14,7 +14,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "node_modules/mocha/bin/mocha tests"
+    "test": "node_modules/mocha/bin/mocha tests",
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
