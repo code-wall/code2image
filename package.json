@@ -1,6 +1,6 @@
 {
-  "name": "image-creator",
-  "version": "1.0.0",
+  "name": "code2image-api",
+  "version": "0.0.1",
   "description": "",
   "main": "app.js",
   "dependencies": {
@@ -18,5 +18,12 @@
     "test": "node_modules/mocha/bin/mocha tests"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "apidoc": {
+    "title": "Turn your code into images",
+    "url" : "http://api.codebin.it",
+    "template": {
+      "withCompare": false
+    }
+  }
 }

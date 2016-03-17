@@ -3,7 +3,7 @@
 const chai = require("chai");
 const expect = chai.expect;
 
-const helpers = require("../helpers.js");
+const helpers = require("../api/helpers.js");
 
 // Test Data
 const CODE_INPUT = [

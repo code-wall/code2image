@@ -10,7 +10,9 @@ app.set('views', __dirname);
 app.use(bodyParser.urlencoded({'extended':'true'}));
 app.use(bodyParser.json());
 
-require('./routes.js')(app);
+app.use('/', express.static(__dirname + '/docs'));
+
+require('./api/routes.js')(app);
 
 app.listen(8080);
 console.log('WebApp listening on port 8080');

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Code2Image API</title>
+</head>
+<body>
+<h1>Code 2 Image API</h1>
+<img id="my-image"/>
+<img src='http://localhost:8080/image?code="function() {\n\tconsole.log(\"hello world 2\");\n};"'/>
+
+<script type="text/javascript">
+    var myImage = document.getElementById('my-image');
+    var code = 'function() {\n\tconsole.log("hello world");\n};';
+    var url = 'http://localhost:8080/image?code=' + JSON.stringify(code);
+    fetch(url).then(function(response) {
+        return response.blob();
+    }).then(function(response) {
+        var objectURL = URL.createObjectURL(response);
+        myImage.src = objectURL;
+    });
+</script>
+</body>
+</html>
