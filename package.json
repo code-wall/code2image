@@ -10,7 +10,6 @@
     "ejs": "^2.4.1",
     "express": "^4.13.4",
     "mocha": "^2.4.5",
-    "node-wkhtml": "0.0.3",
     "webshot": "^0.18.0"
   },
   "devDependencies": {},

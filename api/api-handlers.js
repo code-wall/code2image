@@ -98,7 +98,8 @@ exports.getCode = function(req, res) {
             width : width,
             height: "all"
         },
-        renderDelay           : 500
+        //renderDelay           : 0,
+        phantomPath: __dirname + "/../node_modules/phantomjs-prebuilt/bin/phantomjs"
     };
 
     let renderStream = webshot(codeHtmlRendered, webshotOptions);
