@@ -1,6 +1,5 @@
 "use strict";
 
-const wkhtml = require("node-wkhtml");
 const webshot = require("webshot");
 const fs = require("fs");
 const ejs = require("ejs");
