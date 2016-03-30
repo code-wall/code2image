@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
+    "apidoc": "^0.15.1",
     "body-parser": "^1.15.0",
     "chai": "^3.5.0",
     "codemirror": "^5.12.0",
@@ -16,7 +17,8 @@
   "devDependencies": {},
   "scripts": {
     "test": "node_modules/mocha/bin/mocha tests",
-    "start": "node app.js"
+    "start": "node app.js",
+    "postinstall":"node_modules/apidoc/bin/apidoc -i api -o docs -t docs-template"
   },
   "author": "",
   "license": "ISC",

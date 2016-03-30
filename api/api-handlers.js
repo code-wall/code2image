@@ -31,14 +31,15 @@ exports.test = function(req, res) {
  * @apiParam {string} code Mandatory code snippet encoded as a JSON string.
  * @apiParam {string} language=javascript Optional language for which the syntax highlighting will be used.
  * @apiParam {string} width=1024 Optional width of the image to be generated.
+ * @apiParam {string} id An id of a codebin snippet. Only specify one of code or id.
  *
  * @apiExample {html} HTML:
- * <img src='http://localhost:8080/image?code="function() {\n\tconsole.log(\"hello world\");\n};"'/>
+ * <img src='http://api.codebin.it/image?code="function() {\n\tconsole.log(\"hello world\");\n};"'/>
  *
  * @apiExample {javascript} Javascript:
  *  var myImage = document.getElementById('my-image');
  *  var code = 'function() {\n\tconsole.log("hello world");\n};';
- *  var url = 'http://localhost:8080/image?code=' + JSON.stringify(code);
+ *  var url = 'http://api.codebin.it/image?code=' + JSON.stringify(code);
  *  fetch(url).then(function(response) {
  *      return response.blob();
  *  }).then(function(response) {
@@ -47,7 +48,7 @@ exports.test = function(req, res) {
  *  });
  *
  * @apiExample {curl} cURL:
- * curl -G "http://localhost:8080/image" \
+ * curl -G "http://api.codebin.it/image" \
  *      --data-urlencode "code=\"function() {\\n\\tconstole.log(\\\"hello world\\\");\\n}\"" \
  *      -o mycode.png
  *
