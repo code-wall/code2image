@@ -14,6 +14,7 @@ const CODE_MIRR_CSS_LIB = fs.readFileSync(__dirname + "/../node_modules/codemirr
 const CODE_MIRR_DEFAULT_LANG = "javascript";
 const DEFAULT_WIDTH = 1024;
 const CODE_BIN_API_GET_ENDPOINT = process.env.CODE_BIN_SNIPPET_ENDPOINT || "http://localhost:8888/snippet/";
+const ERR_SNIPPET_NOT_FOUND = "Snippet Not found";
 
 exports.index = function(req, res) {
     res.sendfile("./docs/index.html");
@@ -73,59 +74,73 @@ exports.getCode = function(req, res) {
         // We have an ID
         gotCode = fetch(CODE_BIN_API_GET_ENDPOINT + req.query.id)
             .then(function(resp) {
-                return resp.json();
+                if (resp.status != 200) {
+                    throw ERR_SNIPPET_NOT_FOUND;
+                } else {
+                    return resp.json();
+                }
             })
             .then(function(json) {
                 langMode = codeModes[json.response.language.toLowerCase()];
                 code = JSON.stringify(json.response.snippet);
             })
+
     }
 
-    gotCode.then(function() {
-        let width = DEFAULT_WIDTH;
-        if (req.query.width) {
-            let widthRes = helpers.isValidInt(req.query.width);
-            if (!widthRes.valid) {
-                return res.status(400).send("Invalid Width Parameter");
+    gotCode
+        .then(function() {
+            let width = DEFAULT_WIDTH;
+            if (req.query.width) {
+                let widthRes = helpers.isValidInt(req.query.width);
+                if (!widthRes.valid) {
+                    return res.status(400).send("Invalid Width Parameter");
+                }
+                width = widthRes.number;
             }
-            width = widthRes.number;
-        }
 
-        let codeHtmlRendered = CODE_TEMPLATE({
-            codemirrorJs : CODE_MIRR_JS_LIB,
-            codemirrorCss: CODE_MIRR_CSS_LIB,
-            code         : code,
-            mode         : langMode.mode,
-            mimeType     : langMode.hasOwnProperty("mime") ? langMode.mime : langMode.mimes[0]
+            let codeHtmlRendered = CODE_TEMPLATE({
+                codemirrorJs : CODE_MIRR_JS_LIB,
+                codemirrorCss: CODE_MIRR_CSS_LIB,
+                code         : code,
+                mode         : langMode.mode,
+                mimeType     : langMode.hasOwnProperty("mime") ? langMode.mime : langMode.mimes[0]
+            });
+
+            //return res.send(codeHtmlRendered);
+
+
+            // Now take screen shot with PhantomJS and Webshot
+            let webshotOptions = {
+                siteType              : "html",
+                defaultWhiteBackground: true,
+                windowSize            : {
+                    width : width,
+                    height: 50
+                },
+                shotSize              : {
+                    width : width,
+                    height: "all"
+                },
+                //renderDelay           : 0,
+                phantomPath           : __dirname + "/../node_modules/phantomjs-prebuilt/bin/phantomjs"
+            };
+
+            let renderStream = webshot(codeHtmlRendered, webshotOptions);
+
+            res.setHeader('Content-Type', 'image/png; filename=code.png');
+
+            renderStream.on("end", function() {
+                console.log("OK");
+            });
+
+            renderStream.pipe(res);
+        })
+        .catch(function(err) {
+            if (err === ERR_SNIPPET_NOT_FOUND) {
+                res.status(400).send("Invalid ID Provided please check it is a valid ID");
+            } else {
+                console.log("Internal Error: ", err);
+                res.status(500).send("Internal Error");
+            }
         });
-
-        //return res.send(codeHtmlRendered);
-
-
-        // Now take screen shot with PhantomJS and Webshot
-        let webshotOptions = {
-            siteType              : "html",
-            defaultWhiteBackground: true,
-            windowSize            : {
-                width : width,
-                height: 50
-            },
-            shotSize              : {
-                width : width,
-                height: "all"
-            },
-            //renderDelay           : 0,
-            phantomPath           : __dirname + "/../node_modules/phantomjs-prebuilt/bin/phantomjs"
-        };
-
-        let renderStream = webshot(codeHtmlRendered, webshotOptions);
-
-        res.setHeader('Content-Type', 'image/png; filename=code.png');
-
-        renderStream.on("end", function() {
-            console.log("OK");
-        });
-
-        renderStream.pipe(res);
-    });
 };
