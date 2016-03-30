@@ -115,7 +115,7 @@ exports.getCode = function(req, res) {
                 defaultWhiteBackground: true,
                 windowSize            : {
                     width : width,
-                    height: 50
+                    height: twitterFriendly ? 300 : 50
                 },
                 shotSize              : {
                     width : twitterFriendly ? 560 : width,
