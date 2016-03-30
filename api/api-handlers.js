@@ -108,7 +108,7 @@ exports.getCode = function(req, res) {
 
             //return res.send(codeHtmlRendered);
 
-
+            let twitterFriendly = req.query.twitterFriendly === "true";
             // Now take screen shot with PhantomJS and Webshot
             let webshotOptions = {
                 siteType              : "html",
@@ -118,8 +118,8 @@ exports.getCode = function(req, res) {
                     height: 50
                 },
                 shotSize              : {
-                    width : width,
-                    height: "all"
+                    width : twitterFriendly ? 560 : width,
+                    height: twitterFriendly ? 300 : "all"
                 },
                 //renderDelay           : 0,
                 phantomPath           : __dirname + "/../node_modules/phantomjs-prebuilt/bin/phantomjs"
