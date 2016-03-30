@@ -45,6 +45,7 @@ const CODE_INPUT = [
     }
 
 ];
+
 describe("Helpers tests", function() {
     it("Should output correct code for input", function() {
         for (let test of CODE_INPUT) {

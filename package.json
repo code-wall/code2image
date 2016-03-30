@@ -10,6 +10,7 @@
     "ejs": "^2.4.1",
     "express": "^4.13.4",
     "mocha": "^2.4.5",
+    "node-fetch": "^1.4.1",
     "webshot": "^0.18.0"
   },
   "devDependencies": {},
@@ -21,7 +22,7 @@
   "license": "ISC",
   "apidoc": {
     "title": "Turn your code into images",
-    "url" : "http://api.codebin.it",
+    "url": "http://api.codebin.it",
     "template": {
       "withCompare": false
     }
