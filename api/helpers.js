@@ -6,7 +6,9 @@ const MIN_WIDTH = 50;
 const TAB_LENGTH = 2;
 const LINE_HEIGHT = 24;
 const CHAR_WIDTH = 12;
-const BODY_DEFAULT_MARGIN = 100;
+const BODY_DEFAULT_MARGIN = 8;
+const TWITTER_WIDTH = 560;
+const TWITTER_HEIGHT = 300;
 
 
 exports.validCodeString = function(code) {
@@ -54,12 +56,46 @@ exports.calculateCodeSize = function(jsonStr, twitterFriendly) {
     let codeHeight = lengths.numLines * LINE_HEIGHT;
     if (!twitterFriendly) {
         return {
-            width           : codeWidth + (2 * BODY_DEFAULT_MARGIN),
-            height          : codeHeight + (2 * BODY_DEFAULT_MARGIN),
-            verticalMargin  : BODY_DEFAULT_MARGIN,
-            horizontalMargin: BODY_DEFAULT_MARGIN
+            width     : codeWidth + (2 * BODY_DEFAULT_MARGIN),
+            height    : codeHeight + (2 * BODY_DEFAULT_MARGIN),
+            topMargin : BODY_DEFAULT_MARGIN,
+            leftMargin: BODY_DEFAULT_MARGIN
         }
+    } else {
+        let height, width, leftMargin, topMargin;
+        // We always get the entire width of the code in but not always the entire height
+        //let twitterProportions = TWITTER_WIDTH / TWITTER_HEIGHT;
+        if (codeWidth > TWITTER_WIDTH) {
+            width = codeWidth;
+            leftMargin = 0;
+            let proportions = codeWidth / TWITTER_WIDTH;
+            let desiredHeight = TWITTER_HEIGHT * proportions;
+            if (desiredHeight > codeHeight) {
+                topMargin = (desiredHeight - codeHeight) / 2;
+            } else {
+                topMargin = 0;
+            }
+            height = desiredHeight;
+        } else {
+            width = TWITTER_WIDTH;
+            leftMargin = (TWITTER_WIDTH - codeWidth) / 2;
+            height = TWITTER_HEIGHT;
+            if (codeHeight < TWITTER_HEIGHT) {
+                topMargin = (TWITTER_HEIGHT - codeHeight) / 2;
+            } else {
+                topMargin = 0;
+            }
+        }
+        return {
+            width     : width,
+            height    : height,
+            topMargin : topMargin,
+            leftMargin: leftMargin
+        }
+
     }
+
+
 };
 
 

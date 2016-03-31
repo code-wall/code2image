@@ -103,32 +103,28 @@ exports.getCode = function(req, res) {
             //    width = widthRes.number;
             //}
 
-            // todo add margin property
             let codeHtmlRendered = CODE_TEMPLATE({
-                codemirrorJs    : CODE_MIRR_JS_LIB,
-                codemirrorCss   : CODE_MIRR_CSS_LIB,
-                code            : code,
-                mode            : langMode.mode,
-                mimeType        : langMode.hasOwnProperty("mime") ? langMode.mime : langMode.mimes[0],
-                verticalMargin  : sizes.verticalMargin,
-                horizontalMargin: sizes.horizontalMargin
+                codemirrorJs : CODE_MIRR_JS_LIB,
+                codemirrorCss: CODE_MIRR_CSS_LIB,
+                code         : code,
+                mode         : langMode.mode,
+                mimeType     : langMode.hasOwnProperty("mime") ? langMode.mime : langMode.mimes[0],
+                topMargin    : sizes.topMargin,
+                leftMargin   : sizes.leftMargin
             });
 
             //return res.send(codeHtmlRendered);
 
             // Now take screen shot with PhantomJS and Webshot
             let webshotOptions = {
-                //zoomFactor            : 0.1,
                 siteType              : "html",
                 defaultWhiteBackground: true,
                 windowSize            : {
-                    width : sizes.width,
-                    //width: 1024,
+                    width : sizes.width + 10,
                     height: sizes.height
                 },
                 shotSize              : {
                     width : sizes.width,
-                    //width: 1024,
                     height: sizes.height
                 },
                 //phantomConfig: {
