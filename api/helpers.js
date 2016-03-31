@@ -7,8 +7,12 @@ const TAB_LENGTH = 2;
 const LINE_HEIGHT = 24;
 const CHAR_WIDTH = 12;
 const BODY_DEFAULT_MARGIN = 8;
+
 const TWITTER_WIDTH = 560;
 const TWITTER_HEIGHT = 300;
+
+const FACEBK_WIDTH = 1200;
+const FACEBK_HEIGHT = 630;
 
 
 exports.validCodeString = function(code) {
@@ -50,11 +54,11 @@ exports.calculateLineLengths = function(jsonStr) {
 };
 
 
-exports.calculateCodeSize = function(jsonStr, twitterFriendly) {
+exports.calculateCodeSize = function(jsonStr, twitterFriendly, facebookFriendly) {
     let lengths = exports.calculateLineLengths(jsonStr);
     let codeWidth = lengths.longestLineLength * CHAR_WIDTH;
     let codeHeight = lengths.numLines * LINE_HEIGHT;
-    if (!twitterFriendly) {
+    if (!twitterFriendly && !facebookFriendly) {
         return {
             width     : codeWidth + (2 * BODY_DEFAULT_MARGIN),
             height    : codeHeight + (2 * BODY_DEFAULT_MARGIN),
@@ -63,13 +67,14 @@ exports.calculateCodeSize = function(jsonStr, twitterFriendly) {
         }
     } else {
         let height, width, leftMargin, topMargin;
+        let requiredHeight = twitterFriendly ? TWITTER_HEIGHT : FACEBK_HEIGHT;
+        let requiredWidth =  twitterFriendly ? TWITTER_WIDTH : FACEBK_WIDTH;
         // We always get the entire width of the code in but not always the entire height
-        //let twitterProportions = TWITTER_WIDTH / TWITTER_HEIGHT;
-        if (codeWidth > TWITTER_WIDTH) {
+        if (codeWidth > requiredWidth) {
             width = codeWidth;
             leftMargin = 0;
-            let proportions = codeWidth / TWITTER_WIDTH;
-            let desiredHeight = TWITTER_HEIGHT * proportions;
+            let proportions = codeWidth / requiredWidth;
+            let desiredHeight = requiredHeight * proportions;
             if (desiredHeight > codeHeight) {
                 topMargin = (desiredHeight - codeHeight) / 2;
             } else {
@@ -77,11 +82,11 @@ exports.calculateCodeSize = function(jsonStr, twitterFriendly) {
             }
             height = desiredHeight;
         } else {
-            width = TWITTER_WIDTH;
-            leftMargin = (TWITTER_WIDTH - codeWidth) / 2;
-            height = TWITTER_HEIGHT;
-            if (codeHeight < TWITTER_HEIGHT) {
-                topMargin = (TWITTER_HEIGHT - codeHeight) / 2;
+            width = requiredWidth;
+            leftMargin = (requiredWidth - codeWidth) / 2;
+            height = requiredHeight;
+            if (codeHeight < requiredHeight) {
+                topMargin = (requiredHeight - codeHeight) / 2;
             } else {
                 topMargin = 0;
             }
@@ -92,10 +97,7 @@ exports.calculateCodeSize = function(jsonStr, twitterFriendly) {
             topMargin : topMargin,
             leftMargin: leftMargin
         }
-
     }
-
-
 };
 
 

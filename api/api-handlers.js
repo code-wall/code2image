@@ -33,6 +33,7 @@ exports.test = function(req, res) {
  * @apiParam {string} language=javascript Optional language for which the syntax highlighting will be used.
  * @apiParam {string} id An id of a codebin snippet. Only specify one of code or id.
  * @apiParam {string} twitterFriendly Whether the image should be cropped and resized to fit nicely as a twitter summary card https://dev.twitter.com/cards/types/summary-large-image
+ * @apiParam {string} facebookFriendly Whether the image should be cropped and resized to fit nicely as a facebook open graph image
  *
  * @apiExample {html} HTML:
  * <img src='http://api.codebin.it/image?code="function() {\n\tconsole.log(\"hello world\");\n};"'/>
@@ -90,9 +91,9 @@ exports.getCode = function(req, res) {
     gotCode
         .then(function() {
             let twitterFriendly = req.query.twitterFriendly === "true";
-
+            let facebookFriendly = req.query.facebookFriendly === "true";
             // Calculate Size
-            let sizes = helpers.calculateCodeSize(code, twitterFriendly);
+            let sizes = helpers.calculateCodeSize(code, twitterFriendly, facebookFriendly);
 
             let codeHtmlRendered = CODE_TEMPLATE({
                 codemirrorJs : CODE_MIRR_JS_LIB,
