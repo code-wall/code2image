@@ -11,8 +11,8 @@ const BODY_DEFAULT_MARGIN = 8;
 const TWITTER_WIDTH = 560;
 const TWITTER_HEIGHT = 300;
 
-const FACEBK_WIDTH = 1200;
-const FACEBK_HEIGHT = 630;
+const FACEBK_WIDTH = 600;
+const FACEBK_HEIGHT = 315;
 
 
 exports.validCodeString = function(code) {
