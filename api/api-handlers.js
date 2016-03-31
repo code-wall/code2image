@@ -89,38 +89,51 @@ exports.getCode = function(req, res) {
 
     gotCode
         .then(function() {
-            let width = DEFAULT_WIDTH;
-            if (req.query.width) {
-                let widthRes = helpers.isValidInt(req.query.width);
-                if (!widthRes.valid) {
-                    return res.status(400).send("Invalid Width Parameter");
-                }
-                width = widthRes.number;
-            }
+            let twitterFriendly = req.query.twitterFriendly === "true";
 
+            // Calculate Size
+            let sizes = helpers.calculateCodeSize(code, twitterFriendly);
+
+            //let width = sizes.width;
+            //if (req.query.width) {
+            //    let widthRes = helpers.isValidInt(req.query.width);
+            //    if (!widthRes.valid) {
+            //        return res.status(400).send("Invalid Width Parameter");
+            //    }
+            //    width = widthRes.number;
+            //}
+
+            // todo add margin property
             let codeHtmlRendered = CODE_TEMPLATE({
-                codemirrorJs : CODE_MIRR_JS_LIB,
-                codemirrorCss: CODE_MIRR_CSS_LIB,
-                code         : code,
-                mode         : langMode.mode,
-                mimeType     : langMode.hasOwnProperty("mime") ? langMode.mime : langMode.mimes[0]
+                codemirrorJs    : CODE_MIRR_JS_LIB,
+                codemirrorCss   : CODE_MIRR_CSS_LIB,
+                code            : code,
+                mode            : langMode.mode,
+                mimeType        : langMode.hasOwnProperty("mime") ? langMode.mime : langMode.mimes[0],
+                verticalMargin  : sizes.verticalMargin,
+                horizontalMargin: sizes.horizontalMargin
             });
 
             //return res.send(codeHtmlRendered);
 
-            let twitterFriendly = req.query.twitterFriendly === "true";
             // Now take screen shot with PhantomJS and Webshot
             let webshotOptions = {
+                //zoomFactor            : 0.1,
                 siteType              : "html",
                 defaultWhiteBackground: true,
                 windowSize            : {
-                    width : width,
-                    height: twitterFriendly ? 300 : 50
+                    width : sizes.width,
+                    //width: 1024,
+                    height: sizes.height
                 },
                 shotSize              : {
-                    width : twitterFriendly ? 560 : width,
-                    height: twitterFriendly ? 300 : "all"
+                    width : sizes.width,
+                    //width: 1024,
+                    height: sizes.height
                 },
+                //phantomConfig: {
+                //    zoomFactor: 2
+                //},
                 //renderDelay           : 0,
                 phantomPath           : __dirname + "/../node_modules/phantomjs-prebuilt/bin/phantomjs"
             };

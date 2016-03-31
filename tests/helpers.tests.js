@@ -5,7 +5,7 @@ const expect = chai.expect;
 
 const helpers = require("../api/helpers.js");
 
-// Test Data
+// Valid/ invalid input data
 const CODE_INPUT = [
     {
         input: 'test',
@@ -46,6 +46,31 @@ const CODE_INPUT = [
 
 ];
 
+
+const LINE_CHECK_DATA = [
+    {
+        code: "1\n2\t\n3\n4",
+        expected: {
+            numLines         : 4,
+            longestLineLength: 3
+        }
+    },
+    {
+        code: "1\n2\t\n3\n4\\n = \"hello\"",
+        expected: {
+            numLines         : 4,
+            longestLineLength: 13
+        }
+    },
+    {
+        code: "",
+        expected: {
+            numLines         : 1,
+            longestLineLength: 0
+        }
+    }
+];
+
 describe("Helpers tests", function() {
     it("Should output correct code for input", function() {
         for (let test of CODE_INPUT) {
@@ -62,5 +87,18 @@ describe("Helpers tests", function() {
         expect(helpers.isValidInt("-10").valid).to.be.false;
         expect(helpers.isValidInt("3001").valid).to.be.false;
         expect(helpers.isValidInt("2999").valid).to.be.true;
+    });
+
+
+    it("Should correctly identify number of lines", function() {
+        for (let data of LINE_CHECK_DATA) {
+            let code = JSON.stringify(data.code);
+            let expectedOutput = {
+                numLines         : 4,
+                longestLineLength: 3
+            };
+            expect(helpers.calculateLineLengths(code)).deep.equal(data.expected, data.code);
+        }
     })
+
 });
