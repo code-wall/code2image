@@ -31,8 +31,8 @@ exports.test = function(req, res) {
  *
  * @apiParam {string} code Mandatory code snippet encoded as a JSON string.
  * @apiParam {string} language=javascript Optional language for which the syntax highlighting will be used.
- * @apiParam {string} width=1024 Optional width of the image to be generated.
  * @apiParam {string} id An id of a codebin snippet. Only specify one of code or id.
+ * @apiParam {string} twitterFriendly Whether the image should be cropped and resized to fit nicely as a twitter summary card https://dev.twitter.com/cards/types/summary-large-image
  *
  * @apiExample {html} HTML:
  * <img src='http://api.codebin.it/image?code="function() {\n\tconsole.log(\"hello world\");\n};"'/>
@@ -94,15 +94,6 @@ exports.getCode = function(req, res) {
             // Calculate Size
             let sizes = helpers.calculateCodeSize(code, twitterFriendly);
 
-            //let width = sizes.width;
-            //if (req.query.width) {
-            //    let widthRes = helpers.isValidInt(req.query.width);
-            //    if (!widthRes.valid) {
-            //        return res.status(400).send("Invalid Width Parameter");
-            //    }
-            //    width = widthRes.number;
-            //}
-
             let codeHtmlRendered = CODE_TEMPLATE({
                 codemirrorJs : CODE_MIRR_JS_LIB,
                 codemirrorCss: CODE_MIRR_CSS_LIB,
@@ -127,10 +118,6 @@ exports.getCode = function(req, res) {
                     width : sizes.width,
                     height: sizes.height
                 },
-                //phantomConfig: {
-                //    zoomFactor: 2
-                //},
-                //renderDelay           : 0,
                 phantomPath           : __dirname + "/../node_modules/phantomjs-prebuilt/bin/phantomjs"
             };
 
