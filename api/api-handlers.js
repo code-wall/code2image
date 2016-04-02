@@ -25,13 +25,12 @@ exports.test = function(req, res) {
 };
 
 /**
- * @api {get} /image Get an image representation of your code
- * @apiName GetCodeImage
- * @apiGroup Imagafiy
+ * @api {get} /image Get a syntax highlighted image representation of your code
+ * @apiGroup Code 2 Image
  *
- * @apiParam {string} code Mandatory code snippet encoded as a JSON string.
- * @apiParam {string} language=javascript Optional language for which the syntax highlighting will be used.
- * @apiParam {string} id An id of a codebin snippet. Only specify one of code or id.
+ * @apiParam {string} code Code snippet encoded as a JSON string. Only specify either code or id, not both.
+ * @apiParam {string} id An id of a codebin.it snippet. Only specify either code or id, not both.
+ * @apiParam {string} language=javascript Language for which the syntax highlighting will be used.
  * @apiParam {string} twitterFriendly Whether the image should be cropped and resized to fit nicely as a twitter summary card https://dev.twitter.com/cards/types/summary-large-image
  * @apiParam {string} facebookFriendly Whether the image should be cropped and resized to fit nicely as a facebook open graph image
  *

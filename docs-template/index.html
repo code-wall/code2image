@@ -7,36 +7,39 @@
   <link href="vendor/bootstrap.min.css" rel="stylesheet" media="screen">
   <link href="vendor/prettify.css" rel="stylesheet" media="screen">
   <link href="css/style.css" rel="stylesheet" media="screen, print">
-  <link href="img/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="img/favicon.png" rel="icon">
   <script src="vendor/polyfill.js"></script>
 </head>
 <body>
 
 <script id="template-sidenav" type="text/x-handlebars-template">
 <nav id="scrollingNav">
-  <ul class="sidenav nav nav-list">
-  {{#each nav}}
-    {{#if title}}
-      {{#if isHeader}}
-        {{#if isFixed}}
-          <li class="nav-fixed nav-header" data-group="{{group}}"><a href="#api-{{group}}">{{underscoreToSpace title}}</a></li>
-        {{else}}
-          <li class="nav-header" data-group="{{group}}"><a href="#api-{{group}}">{{underscoreToSpace title}}</a></li>
-        {{/if}}
-      {{else}}
-        <li {{#if hidden}}class="hide" {{/if}}data-group="{{group}}" data-name="{{name}}" data-version="{{version}}">
-          <a href="#api-{{group}}-{{name}}">{{title}}</a>
-        </li>
-      {{/if}}
-    {{/if}}
-  {{/each}}
-  </ul>
+  <!--<ul class="sidenav nav nav-list">-->
+  <!--{{#each nav}}-->
+    <!--{{#if title}}-->
+      <!--{{#if isHeader}}-->
+        <!--{{#if isFixed}}-->
+          <!--<li class="nav-fixed nav-header" data-group="{{group}}"><a href="#api-{{group}}">{{underscoreToSpace title}}</a></li>-->
+        <!--{{else}}-->
+          <!--<li class="nav-header" data-group="{{group}}"><a href="#api-{{group}}">{{underscoreToSpace title}}</a></li>-->
+        <!--{{/if}}-->
+      <!--{{else}}-->
+        <!--<li {{#if hidden}}class="hide" {{/if}}data-group="{{group}}" data-name="{{name}}" data-version="{{version}}">-->
+          <!--<a href="#api-{{group}}-{{name}}">{{title}}</a>-->
+        <!--</li>-->
+      <!--{{/if}}-->
+    <!--{{/if}}-->
+  <!--{{/each}}-->
+  <!--</ul>-->
 </nav>
 </script>
 
 <script id="template-project" type="text/x-handlebars-template">
-  <div class="pull-left">
-    <h1>{{name}}</h1>
+  <div>
+    <img class="titleImage" src="img/api-title.png"/>
+    <a class="hoverOpactiy pull-right" target="_blank" href="https://github.com/code-wall/code2image">
+      <img src="img/GitHub-Mark-32px.png"/>
+    </a>
     {{#if description}}<h2>{{{nl2br description}}}</h2>{{/if}}
   </div>
   {{#if template.withCompare}}
@@ -74,8 +77,8 @@
 <script id="template-generator" type="text/x-handlebars-template">
   {{#if template.withGenerator}}
     {{#if generator}}
-      <div class="content">
-        {{__ "Generated with"}} <a href="{{{generator.url}}}">{{{generator.name}}}</a> {{{generator.version}}} - {{{generator.time}}}
+      <div class="content" style="font-size:12px;">
+        {{__ "Generated with"}} <a style="font-size:12px" href="{{{generator.url}}}">{{{generator.name}}}</a> {{{generator.version}}} - {{{generator.time}}}
       </div>
     {{/if}}
   {{/if}}
@@ -98,7 +101,7 @@
 <script id="template-article" type="text/x-handlebars-template">
   <article id="api-{{article.group}}-{{article.name}}-{{article.version}}" {{#if hidden}}class="hide"{{/if}} data-group="{{article.group}}" data-name="{{article.name}}" data-version="{{article.version}}">
     <div class="pull-left">
-      <h1>{{article.groupTitle}}{{#if article.title}} - {{article.title}}{{/if}}</h1>
+      <h1>{{#if article.title}}{{article.title}}{{/if}}</h1>
     </div>
     {{#if template.withCompare}}
     <div class="pull-right">

@@ -23,7 +23,7 @@
   "author": "",
   "license": "ISC",
   "apidoc": {
-    "title": "Turn your code into images",
+    "title": "Code 2 Image API",
     "url": "http://api.codebin.it",
     "template": {
       "withCompare": false
